@@ -67,7 +67,7 @@ function MuellerLyerDiagram({
   );
 
   return (
-    <div style={{ width, height }}>
+    <div style={{ width, height, margin: "0px auto" }}>
       <Stage width={width} height={height}>
         <Layer>
           <LeftArrow isOpen={isOpen} />
