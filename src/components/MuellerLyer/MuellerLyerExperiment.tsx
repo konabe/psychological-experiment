@@ -20,28 +20,23 @@ function MuellerLyerExperiment({
     MuellerLyerExperimentDependent[]
   >([]);
 
-  const onKeyPress = (e: React.KeyboardEvent) => {
-    const key = e.code;
+  const onClick = (output: "top" | "bottom") => {
     if (trial === inputData.length) {
       return;
     }
     setTrial(trial + 1);
-    if (key === "ArrowUp") {
+    if (output === "top") {
       setOutputData([...outputData, { selection: "top" }]);
     }
-    if (key === "ArrowDown") {
+    if (output === "bottom") {
       setOutputData([...outputData, { selection: "bottom" }]);
     }
   };
 
   return (
-    <div
-      tabIndex={0}
-      style={{ outline: "none", width: "100%" }}
-      onKeyDown={onKeyPress}
-    >
+    <div>
       {trial < inputData.length ? (
-        <MuellerLyerStimulus independent={inputData[trial]} />
+        <MuellerLyerStimulus independent={inputData[trial]} onClick={onClick} />
       ) : (
         <MuellerLyerExperimentResult
           inputData={inputData}

@@ -37,64 +37,68 @@ function MuellerLyerExperimentResult({
           outputData.length
         ).toFixed(2)}
         <table>
-          <tr>
-            <th>試行回数</th>
-            {inputData.map((_, i) => (
-              <th>{i + 1}</th>
-            ))}
-          </tr>
-          <tr>
-            <th>開矢羽の長さ</th>
-            {inputData.map((v) => (
-              <td>
-                {v.isTopOpen
-                  ? v.topBarLength.toFixed()
-                  : v.bottomBarLength.toFixed()}
-              </td>
-            ))}
-          </tr>
-          <tr>
-            <th>閉矢羽の長さ</th>
-            {inputData.map((v) => (
-              <td>
-                {!v.isTopOpen
-                  ? v.topBarLength.toFixed()
-                  : v.bottomBarLength.toFixed()}
-              </td>
-            ))}
-          </tr>
-          <tr>
-            <th>正答</th>
-            {inputData.map((v) => (
-              <td>
-                {(v.isTopOpen
-                  ? v.topBarLength.toFixed()
-                  : v.bottomBarLength.toFixed()) >
-                (!v.isTopOpen
-                  ? v.topBarLength.toFixed()
-                  : v.bottomBarLength.toFixed())
-                  ? "開"
-                  : "閉"}
-              </td>
-            ))}
-          </tr>
-          <tr>
-            <th>回答</th>
-            {outputData.map((o, i) => {
-              const v = inputData[i];
-              return (
-                <td>
+          <thead>
+            <tr>
+              <th>試行回数</th>
+              {inputData.map((_, i) => (
+                <th key={i.toString()}>{i + 1}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>開矢羽の長さ</th>
+              {inputData.map((v, i) => (
+                <td key={i.toString()}>
                   {v.isTopOpen
-                    ? o.selection === "top"
-                      ? "開"
-                      : "閉"
-                    : o.selection === "top"
-                    ? "閉"
-                    : "開"}
+                    ? v.topBarLength.toFixed()
+                    : v.bottomBarLength.toFixed()}
                 </td>
-              );
-            })}
-          </tr>
+              ))}
+            </tr>
+            <tr>
+              <th>閉矢羽の長さ</th>
+              {inputData.map((v, i) => (
+                <td key={i.toString()}>
+                  {!v.isTopOpen
+                    ? v.topBarLength.toFixed()
+                    : v.bottomBarLength.toFixed()}
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <th>正答</th>
+              {inputData.map((v, i) => (
+                <td key={i.toString()}>
+                  {(v.isTopOpen
+                    ? v.topBarLength.toFixed()
+                    : v.bottomBarLength.toFixed()) >
+                  (!v.isTopOpen
+                    ? v.topBarLength.toFixed()
+                    : v.bottomBarLength.toFixed())
+                    ? "開"
+                    : "閉"}
+                </td>
+              ))}
+            </tr>
+            <tr>
+              <th>回答</th>
+              {outputData.map((o, i) => {
+                const v = inputData[i];
+                return (
+                  <td key={i.toString()}>
+                    {v.isTopOpen
+                      ? o.selection === "top"
+                        ? "開"
+                        : "閉"
+                      : o.selection === "top"
+                      ? "閉"
+                      : "開"}
+                  </td>
+                );
+              })}
+            </tr>
+          </tbody>
         </table>
       </div>
       <button onClick={onEnd}>終了する</button>
