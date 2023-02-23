@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Selection, { ExperimentType } from "./components/Selection";
 import MuellerLyerExperiment from "./components/MuellerLyer/MuellerLyerExperiment";
 import "./App.css";
+import { generateIndependentByTrials } from "./domain/muellerLyerExperiment";
 
 function App() {
   const [isTopPage, setIsTopPage] = useState(true);
@@ -34,7 +35,10 @@ function App() {
         {isTopPage ? (
           <Selection onSelect={onExperimentSelect} />
         ) : (
-          <MuellerLyerExperiment trialLength={30} onEnd={onExperimentEnded} />
+          <MuellerLyerExperiment
+            inputData={generateIndependentByTrials(20)}
+            onEnd={onExperimentEnded}
+          />
         )}
       </div>
     </div>

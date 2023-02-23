@@ -1,35 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-  MuellerLyerExperimentDependent,
   MuellerLyerExperimentIndependent,
-  generateIndependentByTrials,
+  MuellerLyerExperimentDependent,
 } from "../../domain/muellerLyerExperiment";
 import MuellerLyerStimulus from "./MuellerLyerStimulus";
 import MuellerLyerExperimentResult from "./MuellerLyerResult";
 
 export type MuellerLyerExperimentProps = {
-  trialLength: number;
+  inputData: MuellerLyerExperimentIndependent[];
   onEnd: () => void;
 };
 
 function MuellerLyerExperiment({
-  trialLength,
+  inputData,
   onEnd,
 }: MuellerLyerExperimentProps) {
   const [trial, setTrial] = useState(0);
-  const [inputData, setInputData] = useState<
-    MuellerLyerExperimentIndependent[]
-  >([]);
   const [outputData, setOutputData] = useState<
     MuellerLyerExperimentDependent[]
   >([]);
-  useEffect(() => {
-    setInputData(generateIndependentByTrials(trialLength));
-  }, [trialLength]);
 
   const onKeyPress = (e: React.KeyboardEvent) => {
     const key = e.code;
-    if (trial === trialLength) {
+    if (trial === inputData.length) {
       return;
     }
     setTrial(trial + 1);
@@ -41,29 +34,21 @@ function MuellerLyerExperiment({
     }
   };
 
-  const Stimulus = ({
-    trialData,
-  }: {
-    trialData: MuellerLyerExperimentIndependent | undefined;
-  }) => {
-    return trialData != null ? (
-      <MuellerLyerStimulus independent={trialData} />
-    ) : (
-      <MuellerLyerExperimentResult
-        inputData={inputData}
-        outputData={outputData}
-        onEnd={onEnd}
-      />
-    );
-  };
-
   return (
     <div
       tabIndex={0}
       style={{ outline: "none", width: "100%" }}
       onKeyDown={onKeyPress}
     >
-      <Stimulus trialData={inputData[trial]} />
+      {trial < inputData.length ? (
+        <MuellerLyerStimulus independent={inputData[trial]} />
+      ) : (
+        <MuellerLyerExperimentResult
+          inputData={inputData}
+          outputData={outputData}
+          onEnd={onEnd}
+        />
+      )}
     </div>
   );
 }
